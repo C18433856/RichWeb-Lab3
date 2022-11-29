@@ -8,14 +8,14 @@
 <body>
     <div id="timer">
         <div id="upper">
-            <input class="time-input-elements" type="text" placeholder="h"><span class="time-input-spans">:</span>
-            <input class="time-input-elements" type="text" placeholder="m"><span class="time-input-spans">:</span>
-            <input class="time-input-elements" type="text" placeholder="s"><br>
+            <input class="time-input-elements" id="hours-input" type="number" min="1" max="100" placeholder="h"><span class="time-input-spans">:</span>
+            <input class="time-input-elements" id="minutes-input" type="number" placeholder="m"><span class="time-input-spans">:</span>
+            <input class="time-input-elements" id="seconds-input" type="number" placeholder="s"><br>
         </div>
         <div id="middle">
             <button id="time-input-button" type="button">Start Countdown</button>
         </div>
-        <div id="lower"></div>
+        <div id="lower"><p id="time-left"></p></div>
     </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.1.0/rxjs.umd.js"></script>

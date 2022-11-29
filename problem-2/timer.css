@@ -36,13 +36,16 @@ html{
     background-color: green;
 }
 
-#time-input-button:hover {
-    background-color: white; /* Green */
-  }
-
 #lower{
     height: 20vh;
     background-color: lightgray;
+    display: flex;
+}
+
+#time-left{
+    text-align: center;
+    margin: auto;
+    font-size: 2vw;
 }
 
 #upper, #middle, #lower{
