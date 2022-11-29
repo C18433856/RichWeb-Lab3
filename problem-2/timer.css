@@ -10,13 +10,6 @@ html{
     display: flex;
 }
 
-#lower{
-    height: 20vh;
-    background-color: lightgray;
-    width: 50vw;
-    margin: auto;
-}
-
 .time-input-elements{
     text-align: center;
     font-size: 5vw;
@@ -28,4 +21,31 @@ html{
 .time-input-spans{
     margin: auto;
     font-size: 5vw;
+}
+
+#middle{
+    height: 10vh;
+}
+
+#time-input-button{
+    width: 100%;
+    height: 100%;
+    font-weight: bold;
+    font-size: 3vw;
+    border-width: 4px;
+    background-color: green;
+}
+
+#time-input-button:hover {
+    background-color: white; /* Green */
+  }
+
+#lower{
+    height: 20vh;
+    background-color: lightgray;
+}
+
+#upper, #middle, #lower{
+    width: 50vw;
+    margin: auto;
 }
