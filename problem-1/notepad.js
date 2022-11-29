@@ -34,10 +34,13 @@ function Add() {
   buttons.appendChild(delete_button);
 
   // Delete button functionality
-  delete_button.onclick = function () {
-    document.getElementById(this.name).remove();
-    
-  };
+  // OLD
+  // delete_button.onclick = function () {
+  //   document.getElementById(this.name).remove();
+  // };
+
+  Observable.fromEvent(delete_button, 'click')
+  .subscribe(() => document.getElementById(delete_button.name).remove());
 
   // Create the edit button
   const edit_button = document.createElement("button");
@@ -46,10 +49,15 @@ function Add() {
   buttons.appendChild(edit_button);
 
   // Edit button functionality
-  edit_button.onclick = function () {
-    const new_text = prompt("Please enter new entry");
-    document.getElementById(this.name).innerHTML =  new_text;
-  }
+  // OLD
+  // edit_button.onclick = function () {
+  //   const new_text = prompt("Please enter new entry");
+  //   document.getElementById(this.name).innerHTML =  new_text;
+  // }
+
+  Observable.fromEvent(edit_button, 'click')
+  .subscribe(() => {const new_text = prompt("Please enter new entry");
+                    document.getElementById(edit_button.name).innerHTML =  new_text;});
 
 
   // button to change background to red
