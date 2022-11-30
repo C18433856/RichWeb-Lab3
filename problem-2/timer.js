@@ -14,7 +14,6 @@ function displayTime(timeLeft){
         active = !active;
     }
     else{
-        document.getElementById("time-left").innerHTML = timeLeft;
         let hours, minutes, seconds;
         hours = (timeLeft - timeLeft % 3600) / 3600;
         timeLeft = timeLeft - hours * 3600;
@@ -44,8 +43,7 @@ function switchTimer(){
             return;
         }
 
-        total_time = hours_input.value * 3600 + minutes_input.value * 60 + 
-                     seconds_input.value;
+        total_time = hours_input.value * 3600 + minutes_input.value * 60 + parseInt(seconds_input.value);
         
         empty_input()
         myObs = Observable
