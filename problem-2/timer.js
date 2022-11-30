@@ -1,5 +1,8 @@
 const Observable = rxjs;
 var active = false;
+const hours_input = document.getElementById("hours-input");
+const minutes_input = document.getElementById("minutes-input");
+const seconds_input = document.getElementById("seconds-input");
 
 function displayTime(timeLeft){
 
@@ -24,6 +27,14 @@ function displayTime(timeLeft){
 }
 
 function switchTimer(){
+
+    return_msg = validate_input(hours_input.value, minutes_input.value, seconds_input.value);
+    if(return_msg != ""){
+        empty_input();
+        alert(return_msg)
+        return;
+    }
+
     if(active){
         active = !active;
         document.getElementById("time-input-button").innerHTML = "Start Countdown";
@@ -32,8 +43,8 @@ function switchTimer(){
         document.getElementById("time-left").innerHTML = "";
     }
     else{
-        total_time = document.getElementById("hours-input").value * 3600 + document.getElementById("minutes-input").value * 60 + 
-                     document.getElementById("seconds-input").value;
+        total_time = hours_input.value * 3600 + minutes_input.value * 60 + 
+                     seconds_input.value;
         
         empty_input()
         myObs = Observable
@@ -52,4 +63,19 @@ function empty_input(){
     document.getElementById("hours-input").value = "";
     document.getElementById("minutes-input").value = "";
     document.getElementById("seconds-input").value = "";
+}
+
+function validate_input(hours, minutes, seconds){
+    let error_msg = "";
+    if(hours < 0 || hours > 99)
+        error_msg = error_msg + "Invalid hours input - please enter value between 0 and 99\n"
+    if(minutes < 0 || minutes > 59)
+        error_msg = error_msg + "Invalid minutes input - please enter value between 0 and 59\n"
+    if(seconds < 0 || seconds > 59)
+        error_msg = error_msg + "Invalid seconds input - please enter value between 0 and 59\n"
+    if(hours + minutes + seconds == 0){
+        error_msg = error_msg + "Please fill at least one of the input boxes\n"
+    }
+    
+    return error_msg
 }
