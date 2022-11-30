@@ -6,15 +6,16 @@ const seconds_input = document.getElementById("seconds-input");
 
 function displayTime(timeLeft){
 
-    document.getElementById("time-left").innerHTML = timeLeft
-
     if (timeLeft == 0){
         myObs.unsubscribe();
         document.getElementById("time-input-button").innerHTML = "Start Countdown";
-        document.getElementById("time-input-button").style.backgroundColor = "green"
+        document.getElementById("time-input-button").style.backgroundColor = "green";
+        document.getElementById("time-left").innerHTML = "Time's Up!";
+        active = !active;
     }
     else{
-        let hours, minutes, seconds
+        document.getElementById("time-left").innerHTML = timeLeft;
+        let hours, minutes, seconds;
         hours = (timeLeft - timeLeft % 3600) / 3600;
         timeLeft = timeLeft - hours * 3600;
         minutes = (timeLeft - timeLeft % 60) / 60;
@@ -27,22 +28,22 @@ function displayTime(timeLeft){
 }
 
 function switchTimer(){
-
-    return_msg = validate_input(hours_input.value, minutes_input.value, seconds_input.value);
-    if(return_msg != ""){
-        empty_input();
-        alert(return_msg)
-        return;
-    }
-
     if(active){
         active = !active;
         document.getElementById("time-input-button").innerHTML = "Start Countdown";
-        document.getElementById("time-input-button").style.backgroundColor = "green"
+        document.getElementById("time-input-button").style.backgroundColor = "green";
         myObs.unsubscribe();
         document.getElementById("time-left").innerHTML = "";
     }
     else{
+
+        return_msg = validate_input(hours_input.value, minutes_input.value, seconds_input.value);
+        if(return_msg != ""){
+            empty_input();
+            alert(return_msg)
+            return;
+        }
+
         total_time = hours_input.value * 3600 + minutes_input.value * 60 + 
                      seconds_input.value;
         
