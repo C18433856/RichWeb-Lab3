@@ -1,8 +1,5 @@
 const Observable = rxjs;
 
-//Observable.fromEvent(document.getElementById("add"), 'click')
-//  .subscribe(() => Add());
-
 const notepad_template = document.createElement('template');
 notepad_template.innerHTML = `
 <style>
@@ -12,12 +9,11 @@ article{
   width: 20vw;
   margin: auto;
   margin-top: 1vh;
-  color: white;
   font-size: 3vh;
+  border: 1px solid black;
 }
 article p{
   margin: 0;
-  background-color: blue;
 }
 #buttons{
   text-align: center;
@@ -26,23 +22,35 @@ article p{
   font-size: 3vh;
 }</style>
 <article>
-  <p></p>
+  <p id="note-text"></p>
   <div>
-    <button type="button">Delete</button>
-    <button type="button">Make Child Note</button>
+    <button id="note-delete" type="button">Delete</button>
+    <button id="child-create" type="button">Make Child Note</button>
   </div>
 </article>`
 
+Observable.fromEvent(document.getElementById("add"), 'click')
+  .subscribe(() => Add());
 
 class notepadNote extends HTMLElement{
-  constructor(){
+  constructor(text, parent_status){
     super();
-    this.attachShadow({mode:open});
+    this.attachShadow({mode:"open"});
     this.shadowRoot.appendChild(notepad_template.content.cloneNode(true));
+    this.shadowRoot.getElementById("note-text").innerText = text;
+    if(parent_status == ""){
+      this.parent = "";
+    }
+    else
+      this.parent = parent_status;
+      this.shadowRoot.getElementById("child-create").style.display = "none";
   }
 }
 
+function Add(){
+  const note_text = document.getElementById("entry").value;
+  const test_note = new notepadNote(note_text, "");
+  document.getElementById("list").appendChild(test_note);
+}
 customElements.define("notepad-note", notepadNote);
 
-const test_note = new notepadNote;
-document.getElementById("list").appendChild(test_note);
