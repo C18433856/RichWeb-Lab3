@@ -1,4 +1,7 @@
 const Observable = rxjs;
+const {Subject} = rxjs;
+
+let unique_note = 0;
 
 const notepad_template = document.createElement('template');
 notepad_template.innerHTML = `
@@ -30,27 +33,37 @@ article p{
 </article>`
 
 Observable.fromEvent(document.getElementById("add"), 'click')
-  .subscribe(() => Add());
+  .subscribe(() => Add(""));
 
 class notepadNote extends HTMLElement{
-  constructor(text, parent_status){
+  constructor(text, parent_status, subject_in){
     super();
     this.attachShadow({mode:"open"});
     this.shadowRoot.appendChild(notepad_template.content.cloneNode(true));
     this.shadowRoot.getElementById("note-text").innerText = text;
     if(parent_status == ""){
       this.parent = "";
+      this.identity = "note" + unique_note;
+      this.subject = new Subject();
+      Observable.fromEvent(this.shadowRoot.getElementById("child-create"), 'click')
+      .subscribe(() => Add(this.identity, this.subject));
+      Observable.fromEvent(this.shadowRoot.getElementById("note-delete"), 'click')
+      .subscribe(() => {this.subject.next(); this.remove()});
     }
-    else
+    else{
       this.parent = parent_status;
+      subject_in.subscribe({next: () => this.remove()})
       this.shadowRoot.getElementById("child-create").style.display = "none";
+      this.shadowRoot.getElementById("note-delete").style.display = "none";
+    }
   }
 }
 
-function Add(){
+function Add(parent, subject=null){
   const note_text = document.getElementById("entry").value;
-  const test_note = new notepadNote(note_text, "");
-  document.getElementById("list").appendChild(test_note);
+  const note = new notepadNote(note_text, parent, subject);
+  document.getElementById("list").appendChild(note);
 }
+
 customElements.define("notepad-note", notepadNote);
 
