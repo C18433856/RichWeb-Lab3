@@ -23,8 +23,13 @@ article p{
   width: 20vw;
   margin: auto;
   font-size: 3vh;
+}
+#note-name{
+  border-bottom: 1px solid black;
+  background-color: lightgray;
 }</style>
 <article>
+  <p id="note-name"></p>
   <p id="note-text"></p>
   <div>
     <button id="note-delete" type="button">Delete</button>
@@ -46,14 +51,17 @@ class notepadNote extends HTMLElement{
     if(parent_in){
       this.parent = parent_in;
       subject_in.subscribe({next: () => this.remove()})
+      this.shadowRoot.getElementById("note-name").innerText = "Child of " + this.parent.identity;
       this.shadowRoot.getElementById("child-create").style.display = "none";
       this.shadowRoot.getElementById("note-delete").style.display = "none";
       console.log(this.parent);
     }
     // Make a parent note
     else{
-      console.log("this ran");
       this.parent = null;
+      this.identity = "Note " + unique_note;
+      unique_note++;
+      this.shadowRoot.getElementById("note-name").innerText = this.identity;
       this.subject = new Subject();
       Observable.fromEvent(this.shadowRoot.getElementById("child-create"), 'click')
       .subscribe(() => Add(prompt("Enter input for child node"),this, this.subject));
