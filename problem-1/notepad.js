@@ -39,6 +39,7 @@ function Add() {
   //   document.getElementById(this.name).remove();
   // };
 
+  // Create observable that tracks when the delete button is clicked
   Observable.fromEvent(delete_button, 'click')
   .subscribe(() => document.getElementById(delete_button.name).remove());
 
@@ -55,6 +56,7 @@ function Add() {
   //   document.getElementById(this.name).innerHTML =  new_text;
   // }
 
+  // Create observable that tracks when the edit button is clicked
   Observable.fromEvent(edit_button, 'click')
   .subscribe(() => {const new_text = prompt("Please enter new entry");
                     document.getElementById(edit_button.name).innerHTML =  new_text;});
@@ -72,6 +74,7 @@ function Add() {
   //   change_color(red.innerHTML, red.name)
   // }
 
+  // Create observable that tracks when the red button is clicked
   Observable.fromEvent(red, 'click')
   .subscribe(() => change_color(red.innerHTML, red.name));
 
@@ -88,6 +91,7 @@ function Add() {
   //   change_color(blue.innerHTML, blue.name)
   // }
 
+  // Create observable that tracks when the blue button is clicked
   Observable.fromEvent(blue, 'click')
   .subscribe(() => change_color(blue.innerHTML, blue.name));
 
@@ -103,6 +107,7 @@ function Add() {
   //   change_color(green.innerHTML, green.name)
   // }
 
+  // Create observable that tracks when the green button is clicked
   Observable.fromEvent(green, 'click')
   .subscribe(() => change_color(green.innerHTML, green.name));
 
@@ -112,6 +117,7 @@ function Add() {
 
 // OLD: document.getElementById("add").addEventListener("click", Add);    // Make the add button call the above function
 
+// Create observable that tracks when the add button is clicked
 Observable.fromEvent(document.getElementById("add"), 'click')
   .subscribe(() => Add());
 

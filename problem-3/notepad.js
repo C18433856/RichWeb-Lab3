@@ -1,8 +1,10 @@
 const Observable = rxjs;
 const {Subject} = rxjs;
 
+// Identify separate parent notes
 let unique_note = 0;
 
+// Template for notepadNote class
 const notepad_template = document.createElement('template');
 notepad_template.innerHTML = `
 <style>
@@ -37,9 +39,11 @@ article p{
   </div>
 </article>`
 
+// Create an observable that tracks the add button being clicked
 Observable.fromEvent(document.getElementById("add"), 'click')
   .subscribe(() => Add(document.getElementById("entry").value));
 
+// Class - create either parent or children notes based on inputs received in the constructor
 class notepadNote extends HTMLElement{
   constructor(text, parent_in, subject_in){
     super();
@@ -62,7 +66,7 @@ class notepadNote extends HTMLElement{
       this.identity = "Note " + unique_note;
       unique_note++;
       this.shadowRoot.getElementById("note-name").innerText = this.identity;
-      this.subject = new Subject();
+      this.subject = new Subject(); // Child notes will subscribe to this
       Observable.fromEvent(this.shadowRoot.getElementById("child-create"), 'click')
       .subscribe(() => Add(prompt("Enter input for child node"),this, this.subject));
       Observable.fromEvent(this.shadowRoot.getElementById("note-delete"), 'click')
@@ -71,6 +75,7 @@ class notepadNote extends HTMLElement{
   }
 }
 
+// Runs when the Add button is clicked
 function Add(input, parent=null, subject=null){
   if(input == ""){
     alert("Please enter some text");
@@ -80,5 +85,6 @@ function Add(input, parent=null, subject=null){
   document.getElementById("list").appendChild(note);
 }
 
+// Define custom html element using the notepadNote class
 customElements.define("notepad-note", notepadNote);
 

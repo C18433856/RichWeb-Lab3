@@ -1,18 +1,21 @@
 const Observable = rxjs;
-var active = false;
+var active = false; // Keep track of the state of the timer (stopped or counting)
 const hours_input = document.getElementById("hours-input");
 const minutes_input = document.getElementById("minutes-input");
 const seconds_input = document.getElementById("seconds-input");
 
+// Called every second to update time
 function displayTime(timeLeft){
 
+    // When time is up, stop the timer
     if (timeLeft == 0){
-        myObs.unsubscribe();
+        myObs.unsubscribe();    // Cancel subscription
         document.getElementById("time-input-button").innerHTML = "Start Countdown";
         document.getElementById("time-input-button").style.backgroundColor = "green";
         document.getElementById("time-left").innerHTML = "Time's Up!";
         active = !active;
     }
+    // Update the time displayed
     else{
         let hours, minutes, seconds;
         hours = (timeLeft - timeLeft % 3600) / 3600;
@@ -27,13 +30,15 @@ function displayTime(timeLeft){
 }
 
 function switchTimer(){
+    // If the timer is currently run it stop it and reset it
     if(active){
         active = !active;
         document.getElementById("time-input-button").innerHTML = "Start Countdown";
         document.getElementById("time-input-button").style.backgroundColor = "green";
-        myObs.unsubscribe();
+        myObs.unsubscribe();    // Cancel subscription
         document.getElementById("time-left").innerHTML = "";
     }
+    // If the timer is not running, validate the input and if valid, start the timer
     else{
 
         return_msg = validate_input(hours_input.value, minutes_input.value, seconds_input.value);
@@ -46,6 +51,8 @@ function switchTimer(){
         total_time = hours_input.value * 3600 + minutes_input.value * 60 + parseInt(seconds_input.value);
         
         empty_input()
+
+        // Create an observable on a timer which emits a number every second
         myObs = Observable
         .timer(0, 1000)
         .subscribe(i => displayTime(total_time - i));
@@ -55,6 +62,7 @@ function switchTimer(){
     }
 }
 
+// Create an observable that tracks the main button being clicked
 Observable.fromEvent(document.getElementById("time-input-button"), 'click')
   .subscribe(() => switchTimer());
 
@@ -64,6 +72,7 @@ function empty_input(){
     document.getElementById("seconds-input").value = "";
 }
 
+// If the error message is anything other than an empty string on return that means the input was invalid
 function validate_input(hours, minutes, seconds){
     let error_msg = "";
     if(hours < 0 || hours > 99)
