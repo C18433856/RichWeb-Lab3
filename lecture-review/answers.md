@@ -13,6 +13,14 @@ As stream can be created over any resource, streams can be used all throught an 
 
 ## Assume that you are building an interface to an API in your Rich Web App. Describe in detail how you could use the RxJS library to handle asynchronous network responses to API requests. In your opinion, what are the benefits to using a streams library for networking over, say, promises? And what do you think are the downsides?
 
+Supposing that someone is building a web application which uses the fetch() function from the Javascript fetch API, RxJS provides a fromFetch() function which is used to create an observable. This observable performs an HTTP request via fetch when subscribed to. The subscriber can choose how it wants to handle a response from the request, and can functionality for when the request is complited can also be codded in for the subscriber. 
+
+The RxJS can be used to perform operations similar to Array Operations, such as filtering the data from the incoming request. This is done with functions called within a pipe() function, that handles all non-creation operators.
+
+There are benefits to using the streams library for networking over using promises. One of those advantages is the ability of observers to simply unsubsribe from an observable, where as there is no way to cancel the operation started by a promise. A promise will always either succeed or fail. Another benefit of streams is allowing multiple entities to subscribe to an observable, where as promises can only handle on event at the time.
+
+There are however certain disadvantages as well. The RxJS library is well known for being difficult to use, so overall program complexity is increased in applications using it. This is not a disadvantage from a functionality or performance standpoint, but it is very easy to misuse the library, and memory leaks can easily occur, such as when forgeting to unsubscribe from a subject before the subscribing entity is destroyed. Misusing the library can also lead to bugs that are difficult to solve, as testing and debuging is already difficult when using RxJS. Lastly, RxJS is an external library where as promises are native to Javscript. This introduces a small performance overhead.
+
 # 3
 
 ## Consider three asynchronous tasks, A,B & C. What are the consequences of these functions sharing global state? What is a good practice to alleviate any problems associated with this?
