@@ -24,3 +24,12 @@ There are however certain disadvantages as well. The RxJS library is well known 
 # 3
 
 ## Consider three asynchronous tasks, A,B & C. What are the consequences of these functions sharing global state? What is a good practice to alleviate any problems associated with this?
+
+The problem with this configuration is the fact that it is unknown in which order the tasks A, B and C will affect the variables. This will cause uncertainty about the values of variables as a tasks starts working with it.
+
+Data only inteded to be used by one task may be updated by other task. This may be unintented by the programmer, but can happen if the naming of the data used by the tasks is similar. This should not be a possibility in the first placec.
+
+There is also the issue that these asynchronous tasks may be in progress at the same time. If one tasks reads the value of a variable and does an operation with it, and then updates it, and another tasks updated the variable while the first tasks was still performing the operation, the update made by the second task will be entirely lost when the first tasks finishes and updates the variable as well.
+
+In order to alleviate these problems, tasks should use variables that are local to them and only they can access. If the same data must be accessed by several functions, it should not be directly available, but it should be encapsulated and provided via an interface using mutators and setters which can decide how the data can be used.
+
